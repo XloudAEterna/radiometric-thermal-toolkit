@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJI Thermal Converter</title>
+  
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript" src="/eel.js"></script>
+  
+  <style>
+    /* Absolute height lock to prevent external window scrolling */
+    body {
+      background-color: #1a1e24; /* Deep dark charcoal background */
+      height: 100vh;
+      overflow: hidden;
+    }
+    /* Dark Mode parameters input override */
+    .form-control-dark {
+      background-color: #161b22 !important;
+      border: 1px solid #30363d !important;
+      color: #ffffff !important;
+    }
+    .form-control-dark:focus {
+      border-color: #1f4e87 !important;
+      box-shadow: none !important;
+    }
+    /* Matrix-style green execution logs console */
+    #log {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      background-color: #0d1117 !important;
+      color: #39d353 !important; /* Terminal green */
+      border: 1px solid #21262d !important;
+      resize: none;
+    }
+  </style>
+</head>
+<body class="d-flex align-items-center justify-content-center">
+
+  <div class="container" style="max-width: 850px; height: 100vh; max-height: 660px;">
+    <div class="card bg-dark text-light shadow border-secondary h-100 p-4 d-flex flex-column gap-3" style="background-color: #21262d !important; border-color: #2d333b !important;">
+      
+      <header class="text-start">
+        <h1 class="h4 text-white fw-bold mb-1">DJI Thermal Image Converter</h1>
+        <p class="text-muted small mb-0">Convert R-JPEG metadata to Radiometric 32-bit Float TIFFs</p>
+      </header>
+
+      <div class="p-3 rounded-3 d-flex align-items-center justify-content-between gap-3 border border-secondary" style="background-color: #161b22;">
+        <span id="folderLabel" class="text-secondary small text-truncate flex-grow-1">No folder selected</span>
+        <span id="imageCount" class="badge bg-secondary text-white">Images: 0</span>
+        <button id="selectFolderBtn" class="btn btn-sm btn-outline-light fw-bold text-nowrap">Select Folder</button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary mb-1">Distance (m)</label>
+          <input type="number" id="distance" class="form-control form-control-sm form-control-dark" value="50">
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary mb-1">Emissivity</label>
+          <input type="text" id="emissivity" class="form-control form-control-sm form-control-dark" value="0.98">
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary mb-1">Reflected Temp (°C)</label>
+          <input type="text" id="reflected" class="form-control form-control-sm form-control-dark" value="32.0">
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary mb-1">Ambient Temp (°C)</label>
+          <input type="text" id="ambient" class="form-control form-control-sm form-control-dark" value="32.0">
+        </div>
+        <div class="col-12">
+          <label class="form-label small fw-bold text-secondary mb-1">Humidity (%)</label>
+          <input type="text" id="humidity" class="form-control form-control-sm form-control-dark" value="40">
+        </div>
+      </div>
+
+      <div>
+        <button id="convertBtn" class="btn w-100 fw-bold py-2 shadow-sm text-white" style="background-color: #1f4e87; border-color: #245d9e;">Start Conversion</button>
+      </div>
+
+      <div id="progressWrap" class="p-2 rounded-3 border border-secondary" style="display: none; background-color: #161b22;">
+        <div class="d-flex justify-content-between small fw-bold text-muted mb-1">
+          <span>Processing Images</span>
+          <span id="progressText" class="text-light">0 / 0</span>
+        </div>
+        <div class="progress bg-secondary" style="height: 8px;">
+          <div id="progressFill" class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-grow-1 overflow-hidden">
+        <label class="form-label small fw-bold text-secondary mb-1">Execution Logs</label>
+        <div id="log" class="form-control flex-grow-1 overflow-auto p-3 text-start"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  
+  <script src="app.js"></script>
+</body>
+</html>

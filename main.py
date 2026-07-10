@@ -6,11 +6,16 @@ import threading
 
 import eel
 
-# Core processor backend
 from core.sdk_handler import ThermalProcessor
+from config import DEFAULT_PARAMS
+
 
 processor = ThermalProcessor()
 
+@eel.expose
+def get_default_params():
+    """Return default thermal parameter values so the frontend can populate the input fields."""
+    return DEFAULT_PARAMS
 
 @eel.expose
 def select_folder():
@@ -73,7 +78,7 @@ def main():
         # Start the application using Chrome/Edge user interface
         eel.start(
             "index.html",
-            mode="chrome",
+            mode="edge",
             size=(850, 750),
             cmdline_args=["--disable-extensions", "--disable-plugins"],
         )

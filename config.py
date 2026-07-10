@@ -4,14 +4,14 @@ import os
 import sys
 
 APP_TITLE = "DJI THERMAL CONVERTER"
-APP_GEOMETRY = "450x600"
+
 
 DEFAULT_PARAMS = {
-    "Distance (m)": "50",
-    "Emissivity": "0.98",
-    "Reflected Temp (°C)": "32",
-    "Ambient Temp (°C)": "32",
-    "Humidity (%)": "40",
+    "distance": "50",
+    "emissivity": "0.98",
+    "reflected_temp": "32",
+    "ambient_temp": "32",
+    "humidity": "40",
 }
 
 
@@ -36,4 +36,3 @@ DJI_SDK_EXE = get_resource_path(
 
 # Bundled exiftool executable — used to copy GPS/EXIF metadata onto the output TIFF.
 EXIFTOOL_EXE = get_resource_path(os.path.join("resources", "exiftool", "exiftool.exe"))
-INDEX_HTML = get_resource_path(os.path.join("web", "index.html"))

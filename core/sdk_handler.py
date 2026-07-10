@@ -128,6 +128,15 @@ class ThermalProcessor:
         if dependency_error:
             return False, dependency_error
 
+        try:
+            float(distance)
+            float(emissivity)
+            float(reflected_temp.replace("°C", "").replace(" ", ""))
+            float(ambient_temp.replace("°C", "").replace(" ", ""))
+            float(humidity.replace("%", "").replace(" ", ""))
+        except ValueError:
+            return False, "Please enter valid numbers for all parameters."
+
         folder_path = os.path.normpath(folder_path)
         raw_folder = os.path.normpath(os.path.join(folder_path, "_raw_temp"))
         output_folder = os.path.normpath(os.path.join(folder_path, "converted_tiff"))
@@ -155,26 +164,26 @@ class ThermalProcessor:
         converted_count = 0
         failed_files = []
 
-        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-            futures = [
-                executor.submit(
-                    self._process_single_image, path, raw_folder, output_folder, params, ambient_temp_clean
-                )
-                # Ensure we strictly look at active context files
-                for path in image_files
-            ]
+        try:
+            with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+                futures = [
+                    executor.submit(
+                        self._process_single_image, path, raw_folder, output_folder, params, ambient_temp_clean
+                    )
+                    for path in image_files
+                ]
 
-            for future in as_completed(futures):
-                base_name, success = future.result()
-                done += 1
-                if success:
-                    converted_count += 1
-                else:
-                    failed_files.append(base_name)
-                if progress_callback:
-                    progress_callback(done, total)
-
-        shutil.rmtree(raw_folder, ignore_errors=True)
+                for future in as_completed(futures):
+                    base_name, success = future.result()
+                    done += 1
+                    if success:
+                        converted_count += 1
+                    else:
+                        failed_files.append(base_name)
+                    if progress_callback:
+                        progress_callback(done, total)
+        finally:
+            shutil.rmtree(raw_folder, ignore_errors=True)
 
         if converted_count == 0:
             return False, f"Conversion failed for all files: {failed_files}"

@@ -10,6 +10,20 @@ function logMessage(message) {
   }
 }
 
+// Load default parameter values from config.py when the page opens
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const defaults = await eel.get_default_params()();
+    document.getElementById("distance").value = defaults.distance;
+    document.getElementById("emissivity").value = defaults.emissivity;
+    document.getElementById("reflected").value = defaults.reflected_temp;
+    document.getElementById("ambient").value = defaults.ambient_temp;
+    document.getElementById("humidity").value = defaults.humidity;
+  } catch (error) {
+    logMessage("Warning: could not load default parameters, using fallback values.");
+  }
+});
+
 // Global variable to keep track of the selected folder path
 let selectedFolderPath = "";
 

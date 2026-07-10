@@ -76,7 +76,7 @@ def main():
         eel.start(
             "index.html",
             mode="edge",
-            size=(850, 750),
+            size=(900, 850),
             # --inprivate forces a fresh, non-persistent Edge session on every
             # launch so the app never serves a stale cached index.html/app.js
             # from a previous run's WebView2 profile.

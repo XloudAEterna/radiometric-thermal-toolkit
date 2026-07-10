@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>DJI Thermal Converter</title>
-  
+
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  
+
   <script type="text/javascript" src="/eel.js"></script>
-  
+
   <style>
-    /* Absolute height lock to prevent external window scrolling */
     body {
-      background-color: #1a1e24; /* Deep dark charcoal background */
+      background-color: #1a1e24;
       height: 100vh;
       overflow: hidden;
     }
-    /* Dark Mode parameters input override */
     .form-control-dark {
       background-color: #161b22 !important;
       border: 1px solid #30363d !important;
@@ -26,14 +27,17 @@
       border-color: #1f4e87 !important;
       box-shadow: none !important;
     }
-    /* Matrix-style green execution logs console */
     #log {
       font-family: 'Courier New', Courier, monospace;
       font-size: 0.85rem;
       background-color: #0d1117 !important;
-      color: #39d353 !important; /* Terminal green */
+      color: #39d353 !important;
       border: 1px solid #21262d !important;
       resize: none;
+    }
+    .range-hint {
+      color: #6fb3e0;
+      font-weight: 400;
     }
   </style>
 </head>
@@ -41,7 +45,7 @@
 
   <div class="container" style="max-width: 850px; height: 100vh; max-height: 660px;">
     <div class="card bg-dark text-light shadow border-secondary h-100 p-4 d-flex flex-column gap-3" style="background-color: #21262d !important; border-color: #2d333b !important;">
-      
+
       <header class="text-start">
         <h1 class="h4 text-white fw-bold mb-1">DJI Thermal Image Converter</h1>
         <p class="text-muted small mb-0">Convert R-JPEG metadata to Radiometric 32-bit Float TIFFs</p>
@@ -55,24 +59,24 @@
 
       <div class="row g-3">
         <div class="col-6">
-          <label class="form-label small fw-bold text-secondary mb-1">Distance (m)</label>
-          <input type="number" id="distance" class="form-control form-control-sm form-control-dark" value="50">
+          <label class="form-label small fw-bold text-secondary mb-1">Distance (m) <span class="range-hint">(1.0–25.0)</span></label>
+          <input type="number" id="distance" class="form-control form-control-sm form-control-dark" value="0" min="1.0" max="25.0" step="0.1">
         </div>
         <div class="col-6">
-          <label class="form-label small fw-bold text-secondary mb-1">Emissivity</label>
-          <input type="text" id="emissivity" class="form-control form-control-sm form-control-dark" value="0.98">
+          <label class="form-label small fw-bold text-secondary mb-1">Emissivity <span class="range-hint">(0.10–1.00)</span></label>
+          <input type="number" id="emissivity" class="form-control form-control-sm form-control-dark" value="0" min="0.1" max="1.0" step="0.01">
         </div>
         <div class="col-6">
-          <label class="form-label small fw-bold text-secondary mb-1">Reflected Temp (°C)</label>
-          <input type="text" id="reflected" class="form-control form-control-sm form-control-dark" value="32.0">
+          <label class="form-label small fw-bold text-secondary mb-1">Reflected Temp (°C) <span class="range-hint">(-40.0–500.0)</span></label>
+          <input type="number" id="reflected" class="form-control form-control-sm form-control-dark" value="0" min="-40.0" max="500.0" step="0.1">
         </div>
         <div class="col-6">
-          <label class="form-label small fw-bold text-secondary mb-1">Ambient Temp (°C)</label>
-          <input type="text" id="ambient" class="form-control form-control-sm form-control-dark" value="32.0">
+          <label class="form-label small fw-bold text-secondary mb-1">Ambient Temp (°C) <span class="range-hint">(-20.0–50.0)</span></label>
+          <input type="number" id="ambient" class="form-control form-control-sm form-control-dark" value="0" min="-20.0" max="50.0" step="0.1">
         </div>
         <div class="col-12">
-          <label class="form-label small fw-bold text-secondary mb-1">Humidity (%)</label>
-          <input type="text" id="humidity" class="form-control form-control-sm form-control-dark" value="40">
+          <label class="form-label small fw-bold text-secondary mb-1">Humidity (%) <span class="range-hint">(20–100)</span></label>
+          <input type="number" id="humidity" class="form-control form-control-sm form-control-dark" value="0" min="20" max="100" step="1">
         </div>
       </div>
 
@@ -99,7 +103,6 @@
   </div>
 
   <script src="js/bootstrap.bundle.min.js"></script>
-  
   <script src="app.js"></script>
 </body>
 </html>

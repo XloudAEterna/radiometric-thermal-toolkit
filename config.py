@@ -5,13 +5,16 @@ import sys
 
 APP_TITLE = "DJI THERMAL CONVERTER"
 
-
+# Default values shown in the input fields when the app opens.
+# Kept at 0 on purpose so the field is obviously "not yet set" — the user
+# must enter their own value before converting. Keys match the parameter
+# names used throughout sdk_handler.py and app.js.
 DEFAULT_PARAMS = {
-    "distance": "50",
-    "emissivity": "0.98",
-    "reflected_temp": "32",
-    "ambient_temp": "32",
-    "humidity": "40",
+    "distance": "0",
+    "emissivity": "0",
+    "reflected_temp": "0",
+    "ambient_temp": "0",
+    "humidity": "0",
 }
 
 

@@ -6,16 +6,11 @@ import threading
 
 import eel
 
-from core.sdk_handler import ThermalProcessor
 from config import DEFAULT_PARAMS
-
+from core.sdk_handler import ThermalProcessor
 
 processor = ThermalProcessor()
 
-@eel.expose
-def get_default_params():
-    """Return default thermal parameter values so the frontend can populate the input fields."""
-    return DEFAULT_PARAMS
 
 @eel.expose
 def select_folder():
@@ -26,7 +21,6 @@ def select_folder():
     import tkinter as tk
     from tkinter import filedialog
 
-    # Standard context manager or tight scope to completely eliminate tkinter overhead
     root = tk.Tk()
     root.withdraw()
     root.wm_attributes("-topmost", 1)  # Bring the folder dialog to the front
@@ -39,6 +33,12 @@ def select_folder():
         images = processor.find_images(folder_path)
         return {"folder": folder_path, "count": len(images)}
     return None
+
+
+@eel.expose
+def get_default_params():
+    """Return default thermal parameter values so the frontend can populate the input fields."""
+    return DEFAULT_PARAMS
 
 
 @eel.expose
@@ -60,13 +60,11 @@ def start_conversion(params):
         except Exception as e:
             eel.conversionFinished(False, f"Critical Thread Failure: {str(e)}")
 
-    # Execute in a daemon thread so the UI never freezes
     threading.Thread(target=run, daemon=True).start()
 
 
 def main():
     """Configure Eel asset pathways and deploy the local web application container."""
-    # Ensure relative asset pathways map correctly when bundled inside PyInstaller
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
         web_dir = os.path.join(sys._MEIPASS, "web")
     else:
@@ -75,12 +73,14 @@ def main():
     eel.init(web_dir)
 
     try:
-        # Start the application using Chrome/Edge user interface
         eel.start(
             "index.html",
             mode="edge",
             size=(850, 750),
-            cmdline_args=["--disable-extensions", "--disable-plugins"],
+            # --inprivate forces a fresh, non-persistent Edge session on every
+            # launch so the app never serves a stale cached index.html/app.js
+            # from a previous run's WebView2 profile.
+            cmdline_args=["--disable-extensions", "--disable-plugins", "--inprivate"],
         )
     except (SystemExit, MemoryError, KeyboardInterrupt):
         pass

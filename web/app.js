@@ -10,6 +10,32 @@ function logMessage(message) {
   }
 }
 
+// Global variable to keep track of the selected folder path
+let selectedFolderPath = "";
+
+const PARAM_RANGES = {
+  distance: { min: 1.0, max: 25.0, label: "Distance" },
+  emissivity: { min: 0.1, max: 1.0, label: "Emissivity" },
+  reflected: { min: -40.0, max: 500.0, label: "Reflected Temp" },
+  ambient: { min: -20.0, max: 50.0, label: "Ambient Temp" },
+  humidity: { min: 20, max: 100, label: "Humidity" },
+};
+
+function validateParams() {
+  for (const [fieldId, range] of Object.entries(PARAM_RANGES)) {
+    const input = document.getElementById(fieldId);
+    const value = parseFloat(input.value);
+
+    if (isNaN(value) || value < range.min || value > range.max) {
+      input.classList.add("is-invalid");
+      logMessage(`ERROR: ${range.label} must be between ${range.min} and ${range.max}.`);
+      return false;
+    }
+    input.classList.remove("is-invalid");
+  }
+  return true;
+}
+
 // Load default parameter values from config.py when the page opens
 window.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -24,12 +50,8 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Global variable to keep track of the selected folder path
-let selectedFolderPath = "";
-
 document.getElementById("selectFolderBtn").addEventListener("click", async () => {
   try {
-    // Call the exposed Python function to trigger native directory selection
     const result = await eel.select_folder()();
     if (result && result.folder) {
       selectedFolderPath = result.folder;
@@ -47,7 +69,10 @@ document.getElementById("convertBtn").addEventListener("click", async () => {
     return;
   }
 
-  // Fetch metrics dynamically from index.html input fields
+  if (!validateParams()) {
+    return;
+  }
+
   const params = {
     folder_path: selectedFolderPath,
     distance: document.getElementById("distance").value,
@@ -57,20 +82,18 @@ document.getElementById("convertBtn").addEventListener("click", async () => {
     humidity: document.getElementById("humidity").value,
   };
 
-  // Reset and show progress UI elements safely
   document.getElementById("convertBtn").disabled = true;
-  
+
   const progressWrap = document.getElementById("progressWrap");
   if (progressWrap) {
     progressWrap.style.display = "block";
   }
-  
+
   document.getElementById("progressFill").style.width = "0%";
   document.getElementById("progressText").textContent = "0 / 0";
   logMessage("Starting conversion process...");
 
   try {
-    // Trigger the background multi-threaded conversion in Python
     await eel.start_conversion(params)();
   } catch (error) {
     logMessage("ERROR: Thread execution failed: " + error);
@@ -78,13 +101,12 @@ document.getElementById("convertBtn").addEventListener("click", async () => {
   }
 });
 
-// Exposed JavaScript functions that Python can call directly using eel.js
 eel.expose(updateProgress);
 function updateProgress(done, total) {
   const percent = Math.round((done / total) * 100);
   const progressFill = document.getElementById("progressFill");
   const progressText = document.getElementById("progressText");
-  
+
   if (progressFill) progressFill.style.width = percent + "%";
   if (progressText) progressText.textContent = `${done} / ${total}`;
 }

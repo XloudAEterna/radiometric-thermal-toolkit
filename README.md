@@ -4,7 +4,6 @@ Radiometric Toolkit is a Windows desktop utility for converting supported DJI ra
 
 The application runs locally. It uses a shared Python conversion engine, an HTML/CSS/JavaScript desktop interface, Eel for the Python/JavaScript bridge, and pywebview to present the interface in a native Windows window.
 
-> This repository is a portfolio edition. It contains no account-login integration, organization-specific branding, Docker deployment, or browser/server upload workflow.
 
 ## Features
 

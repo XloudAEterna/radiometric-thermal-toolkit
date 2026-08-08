@@ -1,0 +1,26 @@
+<h6 class="fw-bold">Supported input</h6>
+<ul class="small text-secondary-soft mb-4">
+  <li>JPEG files with the .jpg or .jpeg extension.</li>
+  <li>DJI radiometric R-JPEG files containing temperature data.</li>
+  <li>Files with _R or _T suffixes and unclassified JPEG files are checked for conversion.</li>
+</ul>
+
+<h6 class="fw-bold">Files not converted</h6>
+<ul class="small text-secondary-soft mb-4">
+  <li>_V visible-light images are identified and skipped.</li>
+  <li>_Z zoom images are identified and skipped.</li>
+  <li>Recompressed or modified JPEG files may no longer contain radiometric temperature data.</li>
+</ul>
+
+<h6 class="fw-bold">Thermal matrix dimensions</h6>
+<ul class="small text-secondary-soft mb-4">
+  <li>Thermal dimensions are read dynamically from the DJI Thermal SDK.</li>
+  <li>Common matrix sizes include 640 × 512 and 1280 × 1024.</li>
+  <li>Preview image dimensions are not used when they differ from the thermal matrix.</li>
+</ul>
+
+<h6 class="fw-bold">Tested DJI devices</h6>
+<p class="small text-secondary-soft mb-0">
+  H20T, H20N, H30T, Mavic 2 Enterprise Advanced, Mavic 3 Thermal,
+  Mavic 3TD, Matrice 4T, M30T and Zenmuse XT S.
+</p>

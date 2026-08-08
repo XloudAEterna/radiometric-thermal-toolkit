@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radiometric Toolkit</title>
+  <link href="/shared/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/shared/css/app.css?v=portfolio-1">
+  <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body class="desktop-mode d-flex align-items-center justify-content-center"
+  data-release-notes-base-url="/releases"
+  data-supported-files-url="/help/supported-files.html">
+
+  <div class="container app-shell">
+    <div class="card app-card text-light shadow-lg h-100 p-4 d-flex flex-column gap-3 position-relative overflow-hidden">
+      <header class="app-header d-flex align-items-center justify-content-between gap-3">
+        <div class="brand-lockup d-flex align-items-center gap-3">
+          <div class="brand-mark" aria-hidden="true"><span></span></div>
+          <div>
+            <div class="brand-eyebrow">RADIOMETRIC TOOLKIT</div>
+            <h1 class="brand-title mb-1">Thermal Converter</h1>
+            <p class="brand-subtitle mb-0">DJI radiometric JPEG → single-band Float32 TIFF</p>
+          </div>
+        </div>
+        <span class="mode-badge">DESKTOP</span>
+      </header>
+
+      <section class="surface-panel p-3 rounded-3 d-flex align-items-center justify-content-between gap-3 border">
+        <span id="folderLabel" class="text-secondary-soft small text-truncate flex-grow-1">No folder selected</span>
+        <span id="imageCount" class="badge app-badge">Images: 0</span>
+        <button type="button" class="btn btn-sm btn-outline-light supported-files-button text-nowrap" data-bs-toggle="modal" data-bs-target="#supportedFilesModal">Supported Files</button>
+        <button id="selectFolderBtn" class="btn btn-sm btn-outline-light fw-bold text-nowrap">Select Folder</button>
+      </section>
+
+      <div id="imageTypeSummary" class="small d-flex gap-3 flex-wrap" style="visibility: hidden;">
+        <span id="rCountRow" class="text-success">● Radiometric R-JPEG: <b id="rCount">0</b></span>
+        <span id="tCountRow" class="text-warning">● Thermal image (_T): <b id="tCount">0</b></span>
+        <span id="vCountRow" class="text-danger">● Visible image (_V): <b id="vCount">0</b> — not converted</span>
+        <span id="zCountRow" class="text-danger">● Zoom image (_Z): <b id="zCount">0</b> — not converted</span>
+        <span id="otherCountRow" class="text-warning">● Unclassified JPG: <b id="otherCount">0</b></span>
+      </div>
+
+      <section class="row g-3 parameter-grid">
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary-soft mb-1">Distance (m) <span class="text-range">1.0–25.0</span></label>
+          <input type="number" id="distance" class="form-control form-control-sm form-control-dark" placeholder="e.g. 25" min="1" max="25" step="0.1">
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary-soft mb-1">Emissivity <span class="text-range">0.10–1.00</span></label>
+          <input type="number" id="emissivity" class="form-control form-control-sm form-control-dark" placeholder="e.g. 0.98" min="0.1" max="1.0" step="0.01">
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary-soft mb-1">Reflected Temp (°C) <span class="text-range">-40.0–500.0</span></label>
+          <input type="number" id="reflected" class="form-control form-control-sm form-control-dark" placeholder="e.g. 32" min="-40" max="500" step="0.1">
+        </div>
+        <div class="col-6">
+          <label class="form-label small fw-bold text-secondary-soft mb-1">Ambient Temp (°C) <span class="text-range">-40.0–80.0</span></label>
+          <input type="number" id="ambient" class="form-control form-control-sm form-control-dark" placeholder="e.g. 25" min="-40" max="80" step="0.1">
+        </div>
+        <div class="col-12">
+          <label class="form-label small fw-bold text-secondary-soft mb-1">Humidity (%) <span class="text-range">20–100</span></label>
+          <input type="number" id="humidity" class="form-control form-control-sm form-control-dark" placeholder="e.g. 40" min="20" max="100" step="1">
+        </div>
+      </section>
+
+      <div class="d-flex gap-2">
+        <button id="convertBtn" class="btn w-100 fw-bold py-2 shadow-sm text-white">Start Conversion</button>
+        <a id="openFolderBtn" href="#" class="btn btn-outline-light fw-bold py-2 text-nowrap" style="display: none;">Open Folder</a>
+      </div>
+
+      <section id="progressWrap" class="surface-panel p-2 rounded-3 border" style="visibility: hidden;">
+        <div class="d-flex justify-content-between small fw-bold text-secondary-soft mb-1">
+          <span>Processing Images</span>
+          <span id="progressText" class="text-light">0 / 0</span>
+        </div>
+        <div class="progress app-progress">
+          <div id="progressFill" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+        </div>
+      </section>
+
+      <section class="d-flex flex-column flex-grow-1 overflow-hidden">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <label class="form-label small fw-bold text-secondary-soft mb-0">Conversion Log</label>
+          <button id="clearLogBtn" type="button" class="btn btn-sm btn-outline-light py-0 px-2 log-clear">Clear</button>
+        </div>
+        <div id="log" class="form-control flex-grow-1 overflow-auto p-3 text-start"></div>
+      </section>
+
+      <footer class="app-footer d-flex align-items-center justify-content-center gap-3 position-relative flex-shrink-0">
+        <span class="small text-secondary-soft">Python · Eel · pywebview · TIFF</span>
+        <button id="releaseNotesButton" type="button" class="btn btn-sm btn-outline-light release-notes-footer-button">What’s New</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="supportedFilesModal" class="modal fade" tabindex="-1" aria-labelledby="supportedFilesTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content app-card text-light border">
+        <div class="modal-header app-modal-border">
+          <div>
+            <h5 id="supportedFilesTitle" class="modal-title">Supported Files and Devices</h5>
+            <div class="small text-secondary-soft">Radiometric thermal image conversion</div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"><div id="supportedFilesContent" class="supported-files-content">Loading supported file information...</div></div>
+        <div class="modal-footer app-modal-border"><button type="button" class="btn btn-outline-light fw-bold" data-bs-dismiss="modal">Close</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="releaseNotesModal" class="modal fade" tabindex="-1" aria-labelledby="releaseNotesTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content app-card text-light border">
+        <div class="modal-header app-modal-border">
+          <div>
+            <h5 id="releaseNotesTitle" class="modal-title">What’s New</h5>
+            <div class="small text-secondary-soft">Radiometric Toolkit — Portfolio Edition</div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"><div id="releaseNotesContent" class="release-notes-content"><div class="small text-secondary-soft">Loading release notes...</div></div></div>
+        <div class="modal-footer app-modal-border"><button type="button" class="btn btn-outline-light fw-bold" data-bs-dismiss="modal">Close</button></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/shared/js/bootstrap.bundle.min.js"></script>
+  <script src="/shared/js/common.js?v=portfolio-1"></script>
+  <script src="app.js?v=portfolio-1"></script>
+</body>
+</html>

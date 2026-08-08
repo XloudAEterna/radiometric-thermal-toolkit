@@ -8,3 +8,10 @@ ENV/
 .vscode/
 .idea/
 *.log
+runtime/
+.DS_Store
+Thumbs.db
+.pytest_cache/
+build/
+dist/
+*.spec

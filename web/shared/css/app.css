@@ -81,17 +81,6 @@ body.server-mode { overflow-y: auto; }
 .brand-title { font-size: 1.38rem; font-weight: 760; letter-spacing: -0.02em; }
 .brand-subtitle { color: var(--rt-text-soft); font-size: 0.79rem; }
 
-.mode-badge {
-  padding: 0.45rem 0.65rem;
-  border: 1px solid var(--rt-border);
-  border-radius: 999px;
-  color: var(--rt-text-mid);
-  background: rgba(255,255,255,0.03);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-}
-
 .surface-panel {
   background: rgba(13, 20, 29, 0.8);
   border-color: var(--rt-border) !important;

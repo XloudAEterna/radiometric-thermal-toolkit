@@ -1,15 +1,37 @@
-# Portfolio Edition
+# Radiometric Toolkit v1.0.0
 
-## Desktop Application
+## Release Overview
 
-- Radiometric Toolkit is packaged as a Windows-only desktop application.
-- The existing Eel + pywebview desktop workflow is preserved.
-- The portfolio interface keeps the dark thermal-analysis visual system with teal-to-heat accents.
-- Organization-specific branding, account login, Docker deployment, and server upload workflows are not included.
+Radiometric Toolkit is a Windows desktop application for processing DJI radiometric JPEG images and exporting temperature data as single-band Float32 TIFF files.
 
-## Conversion Workflow
+## Features
 
-- Batch classification of R, T, V, and Z images is preserved.
-- Supported radiometric images are converted to single-band Float32 TIFF output.
-- Metadata transfer and conversion progress reporting are preserved.
-- Converted files are written to the local `converted_tiff` folder next to the selected source images.
+- Batch processing of supported DJI radiometric JPEG images
+- Single-band Float32 TIFF output
+- Configurable distance
+- Configurable emissivity
+- Configurable reflected temperature
+- Configurable ambient temperature
+- Configurable humidity
+- Automatic thermal image classification
+- Conversion progress tracking
+- Detailed execution log
+- Local folder selection
+- Direct access to generated output files
+- Windows desktop interface
+
+## Processing
+
+Radiometric Toolkit uses the DJI Thermal SDK to extract radiometric temperature information from supported thermal images.
+
+The conversion workflow is:
+
+1. Select a folder containing supported thermal images.
+2. Configure the radiometric parameters.
+3. Start the conversion.
+4. Monitor processing progress and execution logs.
+5. Access the generated Float32 TIFF files.
+
+## Version
+
+**1.0.0**

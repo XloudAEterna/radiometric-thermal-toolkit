@@ -120,6 +120,13 @@ def _get_resource_path(*parts: str) -> str:
 
     return os.path.join(base_directory, *parts)
 
+def _get_application_icon_path() -> str:
+    """Return the Windows application icon path."""
+    return _get_resource_path(
+        "resources",
+        "branding",
+        "app_icon.ico",
+    )
 
 def _get_web_directory() -> str:
     """Return the frontend directory."""
@@ -220,6 +227,7 @@ def run_desktop_application() -> None:
             gui="edgechromium",
             debug=False,
             private_mode=False,
+            icon=_get_application_icon_path(),
         )
     except (SystemExit, KeyboardInterrupt):
         pass

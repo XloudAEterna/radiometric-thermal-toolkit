@@ -146,7 +146,7 @@ Before publishing a release, also perform a Windows smoke test with a non-confid
 
 ## Privacy
 
-Radiometric Toolkit is designed as a local desktop utility. Selected image folders and generated TIFF files remain on the local machine. There is no built-in login system, telemetry service, cloud upload, or remote application API in this portfolio edition.
+Radiometric Toolkit is designed as a local desktop utility. Selected image folders and generated TIFF files remain on the local machine. The application does not include telemetry, cloud uploads, or remote data processing.
 
 ## Third-Party Components
 

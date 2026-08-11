@@ -46,31 +46,6 @@ body.server-mode { overflow-y: auto; }
     var(--rt-bg-panel);
 }
 
-.brand-mark {
-  position: relative;
-  width: 58px;
-  height: 58px;
-  flex: 0 0 58px;
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 15px;
-  background:
-    linear-gradient(135deg, var(--rt-accent) 0 42%, #f0ce62 42% 63%, var(--rt-hot) 63% 100%);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
-}
-
-.brand-mark::before,
-.brand-mark::after,
-.brand-mark span {
-  content: "";
-  position: absolute;
-  border-radius: 999px;
-  background: var(--rt-bg-panel);
-}
-
-.brand-mark::before { width: 8px; height: 34px; left: 25px; top: 12px; }
-.brand-mark::after { width: 30px; height: 8px; left: 14px; top: 25px; }
-.brand-mark span { width: 16px; height: 16px; left: 21px; top: 21px; border: 3px solid rgba(255,255,255,0.8); background: transparent; }
-
 .brand-eyebrow {
   color: var(--rt-accent);
   font-size: 0.68rem;
@@ -174,10 +149,15 @@ body.server-mode { overflow-y: auto; }
   body { overflow-y: auto; }
   .app-shell { height: auto; min-height: 100vh; padding-top: 0.75rem; padding-bottom: 0.75rem; }
   .app-header { align-items: flex-start !important; }
-  .brand-mark { width: 48px; height: 48px; flex-basis: 48px; }
-  .brand-mark::before { height: 28px; left: 20px; top: 10px; }
-  .brand-mark::after { width: 28px; left: 10px; top: 20px; }
-  .brand-mark span { width: 14px; height: 14px; left: 17px; top: 17px; }
   .brand-title { font-size: 1.15rem; }
   .mode-badge { display: none; }
+}
+
+.brand-logo {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  object-fit: contain;
+  border-radius: 15px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.28));
 }

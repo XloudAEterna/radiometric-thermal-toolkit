@@ -26,11 +26,29 @@
         </div>
       </header>
 
-      <section class="surface-panel p-3 rounded-3 d-flex align-items-center justify-content-between gap-3 border">
-        <span id="folderLabel" class="text-secondary-soft small text-truncate flex-grow-1">No folder selected</span>
-        <span id="imageCount" class="badge app-badge">Images: 0</span>
-        <button type="button" class="btn btn-sm btn-outline-light supported-files-button text-nowrap" data-bs-toggle="modal" data-bs-target="#supportedFilesModal">Supported Files</button>
-        <button id="selectFolderBtn" class="btn btn-sm btn-outline-light fw-bold text-nowrap">Select Folder</button>
+      <section class="surface-panel folder-panel p-3 rounded-3 d-flex align-items-center justify-content-between gap-3 border">
+        <div class="folder-status d-flex align-items-center gap-2 flex-grow-1">
+          <svg class="folder-status-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v7A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5v-9Z"></path>
+          </svg>
+          <span id="folderLabel" class="text-secondary-soft small text-truncate"> No folder selected </span>
+        </div>
+        <span id="imageCount" class="badge app-badge image-count-badge"> Images: 0 </span>
+        <button type="button" class="btn btn-sm btn-outline-light supported-files-button text-nowrap" data-bs-toggle="modal" data-bs-target="#supportedFilesModal">
+          <svg class="button-inline-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 3h8l4 4v14H6V3Z"></path>
+            <path d="M14 3v5h5"></path>
+            <path d="M9 13h6M9 17h4"></path>
+          </svg>
+          Supported Files
+        </button>
+        <button id="selectFolderBtn" class="btn btn-sm btn-outline-light fw-bold text-nowrap select-folder-button">
+          <svg class="button-inline-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v7A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5v-9Z"></path>
+            <path d="M12 11v5M9.5 13.5h5"></path>
+          </svg>
+          Select Folder
+        </button>
       </section>
 
       <div id="imageTypeSummary" class="small d-flex gap-3 flex-wrap" style="visibility: hidden;">

@@ -65,6 +65,17 @@ convertButton.addEventListener("click", async () => {
     ...getConversionParams(),
   };
 
+  const progressStatusDot = document.getElementById("progressStatusDot");
+  const progressFill = document.getElementById("progressFill");
+
+  if (progressStatusDot) {
+    progressStatusDot.classList.remove("is-success", "is-error");
+  }
+
+  if (progressFill) {
+    progressFill.classList.add("progress-bar-animated");
+  }
+
   setConversionRunning(true);
   updateProgress(0, 0, 0);
   logMessage("Starting conversion process...");
@@ -90,6 +101,28 @@ eel.expose(conversionFinished);
 function conversionFinished(success, message) {
   logMessage(message);
   setConversionRunning(false);
+
+  const progressStatus = document.getElementById("progressStatus");
+  const progressStatusDot = document.getElementById("progressStatusDot");
+  const progressFill = document.getElementById("progressFill");
+
+  if (progressStatusDot) {
+    progressStatusDot.classList.remove("is-success", "is-error");
+
+    progressStatusDot.classList.add(
+      success ? "is-success" : "is-error"
+    );
+  }
+
+  if (progressStatus) {
+    progressStatus.textContent = success
+      ? "Conversion complete"
+      : "Conversion failed";
+  }
+
+  if (progressFill) {
+    progressFill.classList.remove("progress-bar-animated");
+  }
 
   if (success) {
     document.getElementById("openFolderBtn").style.display = "inline-block";

@@ -133,14 +133,31 @@
       </section>
 
       <div class="d-flex gap-2">
-        <button id="convertBtn" class="btn w-100 fw-bold py-2 shadow-sm text-white">Start Conversion</button>
+        <button id="convertBtn" class="btn w-100 fw-bold py-2 shadow-sm text-white">
+          <svg class="conversion-button-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7L8 5Z"></path>
+          </svg>
+          <span id="convertBtnText">Start Conversion</span>
+        </button>
         <a id="openFolderBtn" href="#" class="btn btn-outline-light fw-bold py-2 text-nowrap" style="display: none;">Open Folder</a>
       </div>
 
-      <section id="progressWrap" class="surface-panel p-2 rounded-3 border" style="visibility: hidden;">
-        <div class="d-flex justify-content-between small fw-bold text-secondary-soft mb-1">
-          <span>Processing Images</span>
-          <span id="progressText" class="text-light">0 / 0</span>
+      <section id="progressWrap" class="surface-panel conversion-progress-panel p-3 rounded-3 border" style="visibility: hidden;">
+        <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+          <div class="conversion-status d-flex align-items-center gap-2">
+            <span id="progressStatusDot" class="progress-status-dot"></span>
+            <span id="progressStatus" class="small fw-bold">
+              Preparing conversion
+            </span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span id="progressText" class="small text-secondary-soft">
+              0 / 0
+            </span>
+            <span id="progressPercent" class="progress-percent">
+              0%
+            </span>
+          </div>
         </div>
         <div class="progress app-progress">
           <div id="progressFill" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>

@@ -90,9 +90,17 @@ function getConversionParams() {
 
 function setConversionRunning(isRunning) {
   const convertButton = document.getElementById("convertBtn");
+  const convertButtonText = document.getElementById("convertBtnText");
 
   if (convertButton) {
     convertButton.disabled = isRunning;
+    convertButton.classList.toggle("is-running", isRunning);
+  }
+
+  if (convertButtonText) {
+    convertButtonText.textContent = isRunning
+      ? "Converting..."
+      : "Start Conversion";
   }
 }
 
@@ -101,6 +109,8 @@ function updateProgress(done, total, percentage = null) {
   const progressWrap = document.getElementById("progressWrap");
   const progressFill = document.getElementById("progressFill");
   const progressText = document.getElementById("progressText");
+  const progressPercent = document.getElementById("progressPercent");
+  const progressStatus = document.getElementById("progressStatus");
 
   const resolvedPercentage = percentage
     ?? (total > 0 ? Math.round((done / total) * 100) : 0);
@@ -115,6 +125,15 @@ function updateProgress(done, total, percentage = null) {
 
   if (progressText) {
     progressText.textContent = `${done} / ${total}`;
+  }
+
+  if (progressPercent) {
+    progressPercent.textContent = `${resolvedPercentage}%`;
+  }
+
+  if (progressStatus) {
+    progressStatus.textContent =
+      total > 0 ? "Processing images" : "Preparing conversion";
   }
 }
 
